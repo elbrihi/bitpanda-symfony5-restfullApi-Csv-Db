@@ -17,6 +17,8 @@ use Symfony\Component\Finder\Finder;
 class CsvManager
 {
 
+    const CSV_SOURCE = 'csv';
+
     private $file;
 
     private $encoders ;
@@ -25,7 +27,6 @@ class CsvManager
 
     private $file_manager ;
 
-    const CSV_SOURCE = 'csv';
 
 
     public function __construct( string $transaction_csv_in,FileManager $file_manager )
