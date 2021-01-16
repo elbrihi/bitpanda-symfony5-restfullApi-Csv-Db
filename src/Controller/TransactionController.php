@@ -13,6 +13,7 @@ use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use Symfony\Component\Validator\Constraints;
+use App\Exception\SourceNotSupportedException;
 
 use App\Service\CsvManager as CsvManager;
 use FOS\RestBundle\View\View; 
@@ -27,9 +28,11 @@ use App\Factory\ManagerFactory;
 class TransactionController extends AbstractController
 {
     
+    const CSV_SOURCE = 'csv';
+    const DB_SOURCE = 'db';
+    const SOURCE_KEY = 'source';
     private $csv_manager;
-
-    private $manager_factory ;
+    private $manager_factory;
 
     public function __construct(ManagerFactory $manager_factory)
     {
@@ -43,20 +46,22 @@ class TransactionController extends AbstractController
      * @QueryParam(name="source", requirements="[a-z]+", nullable=false, description="this param conente just arument 'csv' or 'db'") 
      * 
      * install composer require symfony/validator
-     * 
+     *
+     * todo: create a class to encapulate the Exception 
     */
     public function generateTransactionsToJson(Request $request, ParamFetcherInterface $paramFetcher)
     {
-        $source= $paramFetcher->get('source');
+        $source= $paramFetcher->get(self::SOURCE_KEY);
 
-        if($source ==='csv' || $source ==='db')
+        if($source !== self::CSV_SOURCE || $source !== self::DB_SOURCE)
         {
-            return $this->manager_factory->createManager($source)->generateTransactionsToJson();
+            throw new SourceNotSupportedException(
+                404, 
+                sprintf('this resource %s not supported please use db or csv',  $source)
+            );
         }
         
-        throw new HttpException(500,  ' this resource '.$source.' not supported please use db or csv');
-
-        
+        return $this->manager_factory->createManager($source)->generateTransactionsToJson();
         
     }
 

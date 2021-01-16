@@ -37,7 +37,7 @@ class CsvManager
 
       return $data ;
     }
-
+// todo: extract to a utility class
     public function fromCsvFileToString()
     {
         $finder = new Finder();

@@ -18,8 +18,7 @@ class DbManager extends ServiceEntityRepository
 
     public function generateTransactionsToJson()
     {
-       $data =  $this->entityManager->getRepository('App:Transactions')
-        ->findAll();
+       $data =  $this->entityManager->getRepository('App:Transactions')->findAll();
         return $data ;
     }
 }
