@@ -42,17 +42,27 @@ services:
 
     csv_manager:
         class: App\Service\CsvManager
-        
+        arguments:
+            $file_manager: '@file_manager'
+            $transaction_csv_in: '@transaction_csv_in'
+
     
     db_manager:
         class: App\Service\DbManager
         arguments: 
             $entityManager: '@doctrine.orm.entity_manager'
+            
+
+    file_manager:
+        class: App\Service\FileManager
+        arguments:
+            $transaction_csv_in: '%transaction_csv_in%'
 
     manager_factory:
         class: App\Factory\ManagerFactory 
         arguments:
             $entityManager: '@doctrine.orm.entity_manager'
             $transaction_csv_in: '%kernel.project_dir%/var/in'
+            $file_manager: '@file_manager'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

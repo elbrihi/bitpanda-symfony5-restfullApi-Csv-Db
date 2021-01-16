@@ -53,7 +53,7 @@ class TransactionController extends AbstractController
     {
         $source= $paramFetcher->get(self::SOURCE_KEY);
 
-        if($source !== self::CSV_SOURCE || $source !== self::DB_SOURCE)
+        if(!($source === self::CSV_SOURCE || $source === self::DB_SOURCE))
         {
             throw new SourceNotSupportedException(
                 404, 
