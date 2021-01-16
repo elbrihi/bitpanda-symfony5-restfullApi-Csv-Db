@@ -16,9 +16,9 @@ use Symfony\Component\Validator\Constraints;
 
 use App\Service\CsvManager as CsvManager;
 use FOS\RestBundle\View\View; 
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 use App\Factory\ManagerFactory;
-new CsvManager();
 
 /**
  * 
@@ -34,6 +34,7 @@ class TransactionController extends AbstractController
     public function __construct(ManagerFactory $manager_factory)
     {
         $this->manager_factory = $manager_factory; 
+        
     }
 
     /**
@@ -44,19 +45,21 @@ class TransactionController extends AbstractController
      * install composer require symfony/validator
      * 
     */
-    public function generateTransactionCsvToJson(Request $request, ParamFetcherInterface $paramFetcher)
+    public function generateTransactionsToJson(Request $request, ParamFetcherInterface $paramFetcher)
     {
-        
         $source= $paramFetcher->get('source');
 
         if($source ==='csv' || $source ==='db')
         {
-            return $this->manager_factory->createManager($source)->generateTransactionCsvToJson();
+            return $this->manager_factory->createManager($source)->generateTransactionsToJson();
         }
         
+        throw new HttpException(500,  ' this resource '.$source.' not supported please use db or csv');
+
         
-        return $source;
+        
     }
 
+  
 
 }

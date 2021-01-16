@@ -2,11 +2,24 @@
 
 namespace App\Service ;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
-class DbManager
+
+class DbManager extends ServiceEntityRepository
 {
-    public function __construct()
+    private $entity_manager;
+   
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        echo 'Db Manager';
+        $this->entityManager = $entityManager;
+    }
+
+    public function generateTransactionsToJson()
+    {
+       $data =  $this->entityManager->getRepository('App:Transactions')
+        ->findAll();
+        return $data ;
     }
 }
