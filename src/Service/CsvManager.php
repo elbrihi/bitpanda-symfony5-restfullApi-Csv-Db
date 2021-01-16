@@ -18,9 +18,15 @@ class CsvManager
 {
 
     private $file;
+
     private $encoders ;
+
     private $transaction_csv_in;
+
     private $file_manager ;
+
+    const CSV_SOURCE = 'csv';
+
 
     public function __construct( string $transaction_csv_in,FileManager $file_manager )
     {
@@ -36,7 +42,7 @@ class CsvManager
     {
       $serializer = new Serializer([], $this->encoders);
       
-      $data = $serializer->decode($this->file_manager->fromCsvFileToString(), 'csv');
+      $data = $serializer->decode($this->file_manager->fromCsvFileToString(),  self::CSV_SOURCE);
 
       return $data ;
     }
