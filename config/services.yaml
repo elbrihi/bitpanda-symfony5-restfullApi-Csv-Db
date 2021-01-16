@@ -45,10 +45,10 @@ services:
         #arguments: 
             #$file_manager: '@file_manager'
      
-    file_manager:
-        class: App\Service\FileManager
-        arguments:
-            $transaction_csv_in: '%transaction_csv_in%'
+    #file_manager:
+        #class: App\Service\FileManager
+        #arguments:
+            #$transaction_csv_in: '%transaction_csv_in%'
 
     manager_factory:
         class: App\Factory\ManagerFactory 

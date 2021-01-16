@@ -39,7 +39,7 @@ class TransactionController extends AbstractController
     /**
      * @Rest\View()
      * @Rest\Get("transaction", name="transaction")
-     * @QueryParam(name="source", requirements="[a-z]+", nullable=true, description="Ordre de tri (basé sur le nom)") 
+     * @QueryParam(name="source", requirements="[a-z]+", nullable=false, description="this param conente just arument 'csv' or 'db'") 
      * 
      * install composer require symfony/validator
      * 
@@ -47,31 +47,16 @@ class TransactionController extends AbstractController
     public function generateTransactionCsvToJson(Request $request, ParamFetcherInterface $paramFetcher)
     {
         
-        //$csv_manager = new CsvManager();
         $source= $paramFetcher->get('source');
 
-        dd($this->manager_factory->createManager($source));
+        if($source ==='csv' || $source ==='db')
+        {
+            return $this->manager_factory->createManager($source)->generateTransactionCsvToJson();
+        }
+        
         
         return $source;
     }
 
-    
-    
-    
-    
-    
-    /**
-     * @Rest\View()
-     * @Rest\Get("transaction", name="transaction")
-     * @QueryParam(name="source", requirements="[a-z]+", nullable=true, description="Ordre de tri (basé sur le nom)")
-    */
-    /* public function transactionInJson(ParamFetcherInterface $paramFetcher)
-    {
-        $source = $paramFetcher->get('source');
-        return $source ;
-        dd($source);
-        
-        
-        return $this->csv_manage ;
-    }*/
+
 }
