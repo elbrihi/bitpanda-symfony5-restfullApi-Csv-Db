@@ -18,7 +18,7 @@ class CsvManager
 {
 
     const CSV_SOURCE = 'csv';
-
+    
     private $file;
 
     private $encoders ;
