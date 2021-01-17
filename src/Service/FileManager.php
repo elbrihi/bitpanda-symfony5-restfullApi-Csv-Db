@@ -12,7 +12,6 @@ class FileManager
 
     private $transaction_csv_in ;
 
-    private $file_manager ;
 
     const CSV_TRANSACTIONS = 'transactions.csv';
 
@@ -29,7 +28,7 @@ class FileManager
 
         $files =  $finder->files()->in($this->transaction_csv_in);;
 
-        $finder->files()->name(self::CSV_TRANSACTIONS );
+        $finder->files()->name(self::CSV_TRANSACTIONS);
 
         if ($finder->hasResults()) {
             
